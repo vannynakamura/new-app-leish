@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'first_page.dart';
 
@@ -25,13 +24,8 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Image.asset('assets/logo.png'),
-                const Icon(
-                  Icons.android,
-                  size: 150,
-                  color: Colors.deepPurple,
-                ),
-                const SizedBox(height: 50),
+                Image.asset('assets/images/aa.png'),
+                const SizedBox(height: 30),
                 //Hello Again
                 const Text(
                   'Leishmania Detection',
@@ -39,7 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Welcome back',
+                  'Aplicativo',
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -56,10 +50,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0),
                       child: TextField(
                         controller: _emailController,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'E-mail',
                         ),
@@ -79,11 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0),
                       child: TextField(
                         controller: _passwordController,
                         obscureText: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Senha',
                         ),
@@ -99,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: GestureDetector(
                     // onTap: signIn,
                     child: Container(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(12)),
@@ -115,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ContentPage()),
+                                builder: (context) => const ContentPage()),
                           );
                         },
                         child: const Center(
@@ -136,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //register now
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Text(
                       'Não tem cadastro?',
                       style: TextStyle(
@@ -145,8 +139,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                   ],
                 ),
-                Text(
-                  'Clique aqui',
+                const Text(
+                  'Registre agora!',
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,

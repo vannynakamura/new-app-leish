@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1085700955220",
+    "project_id": "novo-projeto-fb8bc",
+    "storage_bucket": "novo-projeto-fb8bc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085700955220:android:bd556b36e504598e3061c1",
+        "android_client_info": {
+          "package_name": "com.example.app_ah"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1085700955220-2tnpcuislbamiqk1dp60pcudb2iael6h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9byTTZyEWQ9pFSrP__pH-Pn0wlPDblTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1085700955220-2tnpcuislbamiqk1dp60pcudb2iael6h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

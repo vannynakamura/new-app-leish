@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-import 'first_page.dart';
 import 'my_home_page.dart';
 
 void main() {
@@ -19,7 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       initialRoute: "/",
-      getPages: [GetPage(name: "/", page: () => MyHomePage())],
+      getPages: [GetPage(name: "/", page: () => const MyHomePage())],
       //onPressed: () => Get.to(() => ContentPage())
     );
   }

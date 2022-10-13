@@ -18,8 +18,8 @@ class Box extends StatelessWidget {
         color: Colors.deepPurple[200],
         borderRadius: BorderRadius.circular(12),
       ),
-      padding: EdgeInsets.all(16),
-      child: Center(
+      padding: const EdgeInsets.all(16),
+      child: const Center(
         child: Text(
           '25 Jan, 2021',
           style: TextStyle(fontSize: 12, color: Colors.white),

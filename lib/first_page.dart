@@ -1,7 +1,9 @@
 import 'dart:io';
 import 'package:app_ah/boxes.dart';
+import 'package:app_ah/camera.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'test.dart';
 
 class ContentPage extends StatefulWidget {
   const ContentPage({Key? key}) : super(key: key);
@@ -11,39 +13,53 @@ class ContentPage extends StatefulWidget {
 }
 
 class _ContentPageState extends State<ContentPage> {
-  Future pickImage(ImageSource source) async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
+  // ImagePicker imagePicker = ImagePicker();
+  // File? imagemSelecionada;
+  List<File> images = [];
 
-    // final imageTemporary = File(image.path);
-    // setState(() => this.image = imageTemporary);
+  Future _imageFromCamera(int index) async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      images.insert(index, File(image!.path));
+      images.removeAt(index + 1);
+    });
   }
 
-  Future takePicture(ImageSource source) async {
-    final camera = await ImagePicker().pickImage(source: ImageSource.camera);
-    if (camera == null) return;
-
-    // final imageTemporary = File(image.path);
-    // setState(() => this.image = imageTemporary);
+  Future _imageFromGallery(int index) async {
+    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      images.insert(index, File(image!.path));
+      images.removeAt(index + 1);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.deepPurple[700],
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: const Text(''),
+        backgroundColor: Colors.pink[900],
+        centerTitle: true,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.pink[900],
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Text(
-                        'Olá, Vanessa!',
+                        'Olá, Teste!',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,
@@ -59,23 +75,15 @@ class _ContentPageState extends State<ContentPage> {
                       ),
                     ],
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.purple[300],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: EdgeInsets.all(12),
-                    child: Icon(
-                      Icons.android,
-                      color: Colors.white,
-                    ),
-                  )
+                  // Container(
+                  //   child: Image.asset(
+                  //     'assets/images/00.png',
+                  //     width: 180,
+                  //   ),
+                  // )
                 ],
               ),
-              SizedBox(
-                height: 25,
-              ),
-              Text(
+              const Text(
                 'Histórico',
                 style: TextStyle(
                   color: Colors.white,
@@ -83,124 +91,124 @@ class _ContentPageState extends State<ContentPage> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 18,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                   Column(
-                    children: [
+                    children: const [
                       Box(),
                     ],
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     'Deseja fazer uma nova consulta?',
                     style: TextStyle(
@@ -208,27 +216,60 @@ class _ContentPageState extends State<ContentPage> {
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
+                  SizedBox(
+                    height: 8,
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 28,
+              const Text(
+                'Clique para selecionar as imagens',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              const SizedBox(
+                height: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisSize: MainAxisAlignment.spaceBetween,
                 children: [
-                  ElevatedButton.icon(
-                    style:
-                        ElevatedButton.styleFrom(primary: Colors.purple[300]),
-                    onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => SegundaRota()),
-                      // );
-                    },
-                    icon:
-                        Icon(Icons.camera_alt), //icon data for elevated button
-                    label: Text("Acesso a Câmera"), //label text
-                  )
+                  // imagemSelecionada == null
+                  //     ? Container()
+                  //     : Image.file(imagemSelecionada!),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const AddPictures(),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                            Icons.camera_alt), //icon data for elevated button
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      // IconButton(
+                      //   onPressed: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => {}),
+                      //     );
+                      //   },
+                      //   icon: const Icon(
+                      //       Icons.image), //icon data for elevated button
+                      // )
+                    ],
+                  ),
                 ],
               )
             ],
@@ -236,5 +277,35 @@ class _ContentPageState extends State<ContentPage> {
         ),
       ),
     );
+  }
+
+  _showPicker(context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  ListTile(
+                      leading: const Icon(Icons.photo_library),
+                      title: const Text('Galeria'),
+                      onTap: () async {
+                        _imageFromGallery(index);
+                        Navigator.of(context).pop();
+                      }),
+                  ListTile(
+                    leading: const Icon(Icons.photo_camera),
+                    title: const Text('Câmera'),
+                    onTap: () {
+                      _imageFromCamera(index);
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
