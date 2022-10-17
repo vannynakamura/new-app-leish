@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:app_ah/boxes.dart';
-import 'package:app_ah/camera.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import 'test.dart';
+import '../test.dart';
 
 class ContentPage extends StatefulWidget {
   const ContentPage({Key? key}) : super(key: key);
@@ -13,8 +13,6 @@ class ContentPage extends StatefulWidget {
 }
 
 class _ContentPageState extends State<ContentPage> {
-  // ImagePicker imagePicker = ImagePicker();
-  // File? imagemSelecionada;
   List<File> images = [];
 
   Future _imageFromCamera(int index) async {
@@ -33,6 +31,7 @@ class _ContentPageState extends State<ContentPage> {
     });
   }
 
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -57,30 +56,29 @@ class _ContentPageState extends State<ContentPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
-                    children: const [
-                      Text(
-                        'Olá, Teste!',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
+                    children: [
+                      Text('Olá, ' + user.email!),
+                      const SizedBox(
                         height: 8,
                       ),
-                      Text(
+                      const Text(
                         '05 Out, 2022',
                         style: TextStyle(color: Colors.white),
                       ),
                     ],
                   ),
-                  // Container(
-                  //   child: Image.asset(
-                  //     'assets/images/00.png',
-                  //     width: 180,
-                  //   ),
-                  // )
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                        },
+                        color: Colors.deepPurple[200],
+                        child: const Text('Sign Out'),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const Text(

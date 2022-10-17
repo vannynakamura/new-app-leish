@@ -1,17 +1,45 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'first_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showLoginPage;
+  const RegisterPage({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _RegisterPageState extends State<RegisterPage> {
   //text controllers
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future signUp() async {
+    if (passwordConfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    }
+  }
+
+  bool passwordConfirmed() {
+    if (_passwordController.text.trim() ==
+        _confirmPasswordController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  'Aplicativo',
+                  'Registre-se abaixo',
                   style: TextStyle(
                     fontSize: 20,
                   ),
@@ -87,64 +115,75 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 const SizedBox(height: 10),
 
+                //senha confirmar
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _confirmPasswordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Confirmar Senha',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+
                 // sign button
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: GestureDetector(
-                    // onTap: signIn,
+                    onTap: signUp,
                     child: Container(
                       padding: const EdgeInsets.all(20),
                       decoration: BoxDecoration(
                           color: Colors.deepPurple,
                           borderRadius: BorderRadius.circular(12)),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          primary: Colors.deepPurple,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const ContentPage()),
-                          );
-                        },
-                        child: const Center(
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                      child: const Center(
+                        child: Text(
+                          'Cadastrar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 25),
-                //register now
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      'Não tem cadastro?',
+                  children: [
+                    const Text(
+                      'Sou cadastrado! ',
                       style: TextStyle(
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    GestureDetector(
+                      onTap: widget.showLoginPage,
+                      child: const Text(
+                        'Faça o Login agora',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
-                ),
-                const Text(
-                  'Registre agora!',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ],
             ),
