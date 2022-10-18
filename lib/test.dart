@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'resultados.dart';
@@ -12,22 +12,36 @@ class AddPictures extends StatefulWidget {
 }
 
 class _AddPicturesState extends State<AddPictures> {
+  final FirebaseStorage storage = FirebaseStorage.instance;
   List<File> images = [];
 
-  Future _imageFromCamera(int index) async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
+  Future<XFile?> getImage() async {
+    final ImagePicker _picker = ImagePicker();
+    XFile? image = await _picker.pickImage(source: ImageSource.camera);
     setState(() {
-      images.insert(index, File(image!.path));
-      images.removeAt(index + 1);
+      images.add(File(image!.path));
+      // images.removeAt(index + 1);
     });
+    return image;
   }
 
-  Future _imageFromGallery(int index) async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      images.insert(index, File(image!.path));
-      images.removeAt(index + 1);
-    });
+  Future<void> upload(String path) async {
+    File file = File(path);
+    try {
+      String ref = 'images/img-${DateTime.now().toString()}.jpg';
+      await storage.ref(ref).putFile(file);
+    } on FirebaseException catch (e) {
+      throw Exception('Erro no upload: ${e.code}');
+    }
+  }
+
+  pickAndUploadImage() async {
+    XFile? file = await getImage();
+    if (file != null) {
+      await upload(file.path);
+    }
+    // log('data: $images');
+    // log('data2: $file');
   }
 
   @override
@@ -67,7 +81,7 @@ class _AddPicturesState extends State<AddPictures> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _showPicker(context, 0);
+                              pickAndUploadImage();
                             });
                           },
                           child: images.isNotEmpty
@@ -94,7 +108,7 @@ class _AddPicturesState extends State<AddPictures> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _showPicker(context, 1);
+                              pickAndUploadImage();
                             });
                           },
                           child: images.length > 1
@@ -121,7 +135,7 @@ class _AddPicturesState extends State<AddPictures> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _showPicker(context, 2);
+                              pickAndUploadImage();
                             });
                           },
                           child: images.length > 2
@@ -148,7 +162,7 @@ class _AddPicturesState extends State<AddPictures> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _showPicker(context, 3);
+                              pickAndUploadImage();
                             });
                           },
                           child: images.length > 3
@@ -175,7 +189,7 @@ class _AddPicturesState extends State<AddPictures> {
                         GestureDetector(
                           onTap: () {
                             setState(() {
-                              _showPicker(context, 4);
+                              pickAndUploadImage();
                             });
                           },
                           child: images.length > 4
@@ -271,33 +285,33 @@ class _AddPicturesState extends State<AddPictures> {
     );
   }
 
-  _showPicker(context, int index) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Galeria'),
-                      onTap: () async {
-                        _imageFromGallery(index);
-                        Navigator.of(context).pop();
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.photo_camera),
-                    title: const Text('Câmera'),
-                    onTap: () {
-                      _imageFromCamera(index);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
+  // _showPicker(context, int index) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (BuildContext bc) {
+  //         return SafeArea(
+  //           child: Container(
+  //             child: Wrap(
+  //               children: <Widget>[
+  //                 ListTile(
+  //                     leading: const Icon(Icons.photo_library),
+  //                     title: const Text('Galeria'),
+  //                     onTap: () async {
+  //                       _imageFromGallery(index);
+  //                       Navigator.of(context).pop();
+  //                     }),
+  //                 ListTile(
+  //                   leading: const Icon(Icons.photo_camera),
+  //                   title: const Text('Câmera'),
+  //                   onTap: () {
+  //                     _imageFromCamera(index);
+  //                     Navigator.of(context).pop();
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       });
+  // }
 }

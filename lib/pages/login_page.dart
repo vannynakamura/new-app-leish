@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import 'forgot_pw_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -79,7 +78,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-
                 //senha
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
