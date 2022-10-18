@@ -62,7 +62,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.0),
             child: Text(
-              'Enter you email and we will send you a password reset link',
+              'Digite seu email e enviaremos um link para resetar sua senha',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,
@@ -99,7 +99,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
           MaterialButton(
             onPressed: passwordReset,
-            child: const Text('Reset Password'),
+            child: const Text('Resetar Senha'),
             color: Colors.deepPurple[200],
           ),
           const SizedBox(height: 10),
