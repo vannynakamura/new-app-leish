@@ -1,16 +1,25 @@
 import 'dart:io';
 import 'package:app_ah/pages/oi.dart';
+import 'package:app_ah/pages/results.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
 
 class Resultados {
-  final double TaxaDeInfeccao;
-  final double IndiceDeInfecacao;
-  final int QuantidadeDeLeishmania;
-  final int QuantidadeDeMacrofagosComLeishmania;
-  final int TotalDeMacrofagos;
+  final dynamic TaxaDeInfeccao;
+  final dynamic IndiceDeInfecacao;
+  final dynamic QuantidadeDeLeishmania;
+  final dynamic QuantidadeDeMacrofagosComLeishmania;
+  final dynamic TotalDeMacrofagos;
 
   const Resultados(
       {required this.TaxaDeInfeccao,
@@ -21,20 +30,43 @@ class Resultados {
 
   factory Resultados.fromJson(Map<String, dynamic> json) {
     return Resultados(
-        TaxaDeInfeccao: json['Taxa de Infecção'],
-        QuantidadeDeLeishmania: json['Quantidade de leishmania'],
-        QuantidadeDeMacrofagosComLeishmania:
-            json['Quantidade de macrofagos com leishmania'],
-        IndiceDeInfecacao: json['Indice de infecção'],
-        TotalDeMacrofagos: json["Total de Macrofagos"]
-        // MacrofagosContaveis: json['macrofagos_contaveis'],
-        );
+        TaxaDeInfeccao: json['taxaInfec'],
+        QuantidadeDeLeishmania: json['qntLeishmania'],
+        QuantidadeDeMacrofagosComLeishmania: json['qntMacrofagosLeishmania'],
+        IndiceDeInfecacao: json['indiceInfec'],
+        TotalDeMacrofagos: json["totalMacrofagos"]);
   }
 }
 
+Future<Resultados> createResultados(List<File> arrayImages) async {
+  FormData formData = FormData();
+  for (int i = 0; i < arrayImages.length; i++) {
+    // var path = await FlutterAbsolutePath.getAbsolutePath(arrayImages[i].identifier);;
+    var imagePath = arrayImages[i].path;
+    formData.files.addAll([
+      MapEntry(
+          "image" + (i + 1).toString(),
+          await MultipartFile.fromFile(imagePath,
+              filename: imagePath, contentType: MediaType('image', 'jpeg')))
+    ]);
+  }
+
+  Dio dio = Dio();
+
+  var response = await dio.post("http://192.168.3.10:3000/predict",
+      data: formData, options: Options());
+
+  var results = Resultados.fromJson(response.data);
+  return results;
+}
+
 class AddPictures extends StatefulWidget {
+  late Future<Resultados> resultados;
+
+  late Resultados teste;
   AddPictures({
     Key? key,
+    // required this.arrayImages,
   }) : super(key: key);
 
   @override
@@ -259,41 +291,52 @@ class _AddPicturesState extends State<AddPictures> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text(
-                          'Gerar resultados:',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold),
+                        GestureDetector(
+                          onTap: () async {
+                            widget.resultados = createResultados(images);
+                            var oi = await widget.resultados;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ResultadosAmostras(valor: oi),
+                                fullscreenDialog: true,
+                              ),
+                            );
+                            // Navigator.of(context).pop();
+                          },
+                          child: Center(
+                            child: Text('Resultados'),
+                          ),
                         ),
                         const SizedBox(
                           height: 50,
                         ),
-                        TextButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                //FAZER A FUNÇÃO FUNCIONAR
-                                builder: (context) =>
-                                    ResultadoAmostras(arrayImages: images),
-                                fullscreenDialog: true,
-                              ),
-                            );
-                          },
+                        // TextButton.icon(
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         //FAZER A FUNÇÃO FUNCIONAR
+                        //         builder: (context) =>
+                        //             ResultadoAmostras(arrayImages: images),
+                        //         fullscreenDialog: true,
+                        //       ),
+                        //     );
+                        //   },
 
-                          label: const Text(
-                            'Resultados',
-                            style: TextStyle(color: Colors.white, fontSize: 25),
-                          ),
-                          icon: const Icon(
-                            Icons.send,
-                            size: 35,
-                            color: Colors.green,
-                          ),
-                          // style: ,
-                          // label: const Text('oi'),
-                        )
+                        //   label: const Text(
+                        //     'Resultados',
+                        //     style: TextStyle(color: Colors.white, fontSize: 25),
+                        //   ),
+                        //   icon: const Icon(
+                        //     Icons.send,
+                        //     size: 35,
+                        //     color: Colors.green,
+                        //   ),
+                        //   // style: ,
+                        //   // label: const Text('oi'),
+                        // )
                         // FloatingActionButton(
                         //   backgroundColor: Colors.pink[200],
                         //   hoverColor: Colors.white,
@@ -320,35 +363,19 @@ class _AddPicturesState extends State<AddPictures> {
         ),
       ),
     );
-  }
+    FutureBuilder<Resultados> buildFutureBuilder() {
+      return FutureBuilder<Resultados>(
+        // future: resultados,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Text('');
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
 
-  // _showPicker(context, int index) {
-  //   showModalBottomSheet(
-  //       context: context,
-  //       builder: (BuildContext bc) {
-  //         return SafeArea(
-  //           child: Container(
-  //             child: Wrap(
-  //               children: <Widget>[
-  //                 ListTile(
-  //                     leading: const Icon(Icons.photo_library),
-  //                     title: const Text('Galeria'),
-  //                     onTap: () async {
-  //                       _imageFromGallery(index);
-  //                       Navigator.of(context).pop();
-  //                     }),
-  //                 ListTile(
-  //                   leading: const Icon(Icons.photo_camera),
-  //                   title: const Text('Câmera'),
-  //                   onTap: () {
-  //                     _imageFromCamera(index);
-  //                     Navigator.of(context).pop();
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  // }
+          return const CircularProgressIndicator();
+        },
+      );
+    }
+  }
 }

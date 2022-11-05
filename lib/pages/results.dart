@@ -1,67 +1,115 @@
-// import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-// class ResultadosAmostras extends StatefulWidget {
-//   late dynamic TaxaDeInfeccao;
-//   late dynamic IndiceDeInfecacao;
-//   late dynamic QuantidadeDeLeishmania;
-//   late dynamic QuantidadeDeMacrofagosComLeishmania;
-//   late dynamic TotalDeMacrofagos;
+class ResultadosAmostras extends StatefulWidget {
+  late dynamic valor;
+  // late dynamic TaxaDeInfeccao;
+  // late dynamic IndiceDeInfecacao;
+  // late dynamic QuantidadeDeLeishmania;
+  // late dynamic QuantidadeDeMacrofagosComLeishmania;
+  // late dynamic TotalDeMacrofagos;
 
-//   ResultadosAmostras({
-//     Key? key,
-//     required this.TaxaDeInfeccao,
-//     required this.QuantidadeDeLeishmania,
-//     required this.QuantidadeDeMacrofagosComLeishmania,
-//     required this.IndiceDeInfecacao,
-//     required this.TotalDeMacrofagos,
-//   }) : super(key: key);
+  ResultadosAmostras({Key? key, required this.valor
+      // required this.TaxaDeInfeccao,
+      // required this.QuantidadeDeLeishmania,
+      // required this.QuantidadeDeMacrofagosComLeishmania,
+      // required this.IndiceDeInfecacao,
+      // required this.TotalDeMacrofagos,
+      })
+      : super(key: key);
 
-//   @override
-//   State<ResultadosAmostras> createState() => _ResultadosAmostrasState();
-// }
+  @override
+  State<ResultadosAmostras> createState() => _ResultadosAmostrasState();
+}
 
-// class _ResultadosAmostrasState extends State<ResultadosAmostras> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: IconButton(
-//           icon: const Icon(Icons.arrow_back, color: Colors.white),
-//           onPressed: () => Navigator.of(context).pop(),
-//         ),
-//         title: const Text(''),
-//         backgroundColor: Colors.pink[900],
-//         centerTitle: true,
-//         elevation: 0,
-//       ),
-//       backgroundColor: Colors.pink[900],
-//       body: Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Column(
-//             children: [
-//               Container(
-//                 child: Text(
-//                   'Resultados',
-//                   style: TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 25,
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               Container(
-//                 child: Text('Taxa de Infecção:' + widget.TaxaDeInfeccao),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+class _ResultadosAmostrasState extends State<ResultadosAmostras> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        title: const Text(''),
+        backgroundColor: Colors.pink[900],
+        centerTitle: true,
+        elevation: 0,
+      ),
+      backgroundColor: Colors.pink[900],
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              Container(
+                child: Text(
+                  'Total de Macrofagos: ' +
+                      widget.valor.TotalDeMacrofagos.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Text(
+                  'Quantidade de Macrofagos com Leishmania: ' +
+                      widget.valor.QuantidadeDeMacrofagosComLeishmania
+                          .toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Text(
+                  'Quantidade de Leishmania: ' +
+                      widget.valor.QuantidadeDeLeishmania.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Text(
+                  'Indice da Infecção: ' +
+                      widget.valor.IndiceDeInfecacao.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                child: Text(
+                  'Taxa da Infecção: ' + widget.valor.TaxaDeInfeccao.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 
 
