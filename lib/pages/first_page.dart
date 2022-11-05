@@ -1,34 +1,28 @@
 import 'dart:io';
 import 'package:app_ah/boxes.dart';
+import 'package:app_ah/pages/historico.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import '../test.dart';
 
 class ContentPage extends StatefulWidget {
-  const ContentPage({Key? key}) : super(key: key);
+  //late List array_images;
+  ContentPage({Key? key}) : super(key: key);
 
   @override
   _ContentPageState createState() => _ContentPageState();
 }
 
 class _ContentPageState extends State<ContentPage> {
-  List<File> images = [];
-
-  Future _imageFromCamera(int index) async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.camera);
-    setState(() {
-      images.insert(index, File(image!.path));
-      images.removeAt(index + 1);
-    });
-  }
-
-  Future _imageFromGallery(int index) async {
-    XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      images.insert(index, File(image!.path));
-      images.removeAt(index + 1);
-    });
+  acessarHistorico() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ResultadosAntigos(),
+        fullscreenDialog: true,
+      ),
+    );
   }
 
   final user = FirebaseAuth.instance.currentUser!;
@@ -57,18 +51,18 @@ class _ContentPageState extends State<ContentPage> {
                 children: [
                   Column(
                     children: [
-                      Text('Olá, ' + user.email!),
+                      Text('Olá, ' + user.email!,
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.normal)),
                       const SizedBox(
-                        height: 8,
-                      ),
-                      const Text(
-                        '05 Out, 2022',
-                        style: TextStyle(color: Colors.white),
+                        height: 10,
                       ),
                     ],
                   ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       MaterialButton(
                         onPressed: () {
@@ -96,51 +90,35 @@ class _ContentPageState extends State<ContentPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: const [
-                      Box(),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Box(),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Box(),
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                 ],
@@ -152,23 +130,35 @@ class _ContentPageState extends State<ContentPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                 ],
@@ -180,23 +170,75 @@ class _ContentPageState extends State<ContentPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                   Column(
-                    children: const [
-                      Box(),
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 18,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: acessarHistorico,
+                        child: const Box(),
+                      ),
                     ],
                   ),
                 ],
@@ -231,11 +273,7 @@ class _ContentPageState extends State<ContentPage> {
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                // mainAxisSize: MainAxisAlignment.spaceBetween,
                 children: [
-                  // imagemSelecionada == null
-                  //     ? Container()
-                  //     : Image.file(imagemSelecionada!),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -244,7 +282,7 @@ class _ContentPageState extends State<ContentPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const AddPictures(),
+                              builder: (context) => AddPictures(),
                               fullscreenDialog: true,
                             ),
                           );
@@ -255,17 +293,6 @@ class _ContentPageState extends State<ContentPage> {
                       const SizedBox(
                         height: 8,
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (context) => {}),
-                      //     );
-                      //   },
-                      //   icon: const Icon(
-                      //       Icons.image), //icon data for elevated button
-                      // )
                     ],
                   ),
                 ],
@@ -275,35 +302,5 @@ class _ContentPageState extends State<ContentPage> {
         ),
       ),
     );
-  }
-
-  _showPicker(context, int index) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          return SafeArea(
-            child: Container(
-              child: Wrap(
-                children: <Widget>[
-                  ListTile(
-                      leading: const Icon(Icons.photo_library),
-                      title: const Text('Galeria'),
-                      onTap: () async {
-                        _imageFromGallery(index);
-                        Navigator.of(context).pop();
-                      }),
-                  ListTile(
-                    leading: const Icon(Icons.photo_camera),
-                    title: const Text('Câmera'),
-                    onTap: () {
-                      _imageFromCamera(index);
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
   }
 }

@@ -1,11 +1,41 @@
 import 'dart:io';
+import 'package:app_ah/pages/oi.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'resultados.dart';
+
+class Resultados {
+  final double TaxaDeInfeccao;
+  final double IndiceDeInfecacao;
+  final int QuantidadeDeLeishmania;
+  final int QuantidadeDeMacrofagosComLeishmania;
+  final int TotalDeMacrofagos;
+
+  const Resultados(
+      {required this.TaxaDeInfeccao,
+      required this.QuantidadeDeLeishmania,
+      required this.QuantidadeDeMacrofagosComLeishmania,
+      required this.IndiceDeInfecacao,
+      required this.TotalDeMacrofagos});
+
+  factory Resultados.fromJson(Map<String, dynamic> json) {
+    return Resultados(
+        TaxaDeInfeccao: json['Taxa de Infecção'],
+        QuantidadeDeLeishmania: json['Quantidade de leishmania'],
+        QuantidadeDeMacrofagosComLeishmania:
+            json['Quantidade de macrofagos com leishmania'],
+        IndiceDeInfecacao: json['Indice de infecção'],
+        TotalDeMacrofagos: json["Total de Macrofagos"]
+        // MacrofagosContaveis: json['macrofagos_contaveis'],
+        );
+  }
+}
 
 class AddPictures extends StatefulWidget {
-  const AddPictures({Key? key}) : super(key: key);
+  AddPictures({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AddPictures> createState() => _AddPicturesState();
@@ -14,14 +44,22 @@ class AddPictures extends StatefulWidget {
 class _AddPicturesState extends State<AddPictures> {
   final FirebaseStorage storage = FirebaseStorage.instance;
   List<File> images = [];
+  List<Uint8List> array_images = [];
 
   Future<XFile?> getImage() async {
     final ImagePicker _picker = ImagePicker();
     XFile? image = await _picker.pickImage(source: ImageSource.camera);
+    dynamic image_bytes = await image!.readAsBytes();
+    dynamic image_list = await decodeImageFromList(image_bytes);
+
     setState(() {
-      images.add(File(image!.path));
+      images.add(File(image.path));
+      array_images.add(image_bytes);
+
+      //array_images.add([255, 255, 255]);
       // images.removeAt(index + 1);
     });
+    // File file = File(image!.path);
     return image;
   }
 
@@ -40,8 +78,6 @@ class _AddPicturesState extends State<AddPictures> {
     if (file != null) {
       await upload(file.path);
     }
-    // log('data: $images');
-    // log('data2: $file');
   }
 
   @override
@@ -239,7 +275,8 @@ class _AddPicturesState extends State<AddPictures> {
                               context,
                               MaterialPageRoute(
                                 //FAZER A FUNÇÃO FUNCIONAR
-                                builder: (context) => const resultadoAmostras(),
+                                builder: (context) =>
+                                    ResultadoAmostras(arrayImages: images),
                                 fullscreenDialog: true,
                               ),
                             );

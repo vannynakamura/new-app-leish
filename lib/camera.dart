@@ -114,7 +114,7 @@ class _CameraState extends State<Camera> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AddPictures(),
+                    builder: (context) => AddPictures(),
                     fullscreenDialog: true,
                   ),
                 );
